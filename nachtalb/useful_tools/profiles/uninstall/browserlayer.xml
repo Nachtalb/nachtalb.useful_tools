@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layers>
+
+    <layer name="nachtalb.useful_tools"
+           interface="nachtalb.useful_tools.interfaces.INachtalbUsefulToolsLayer"
+           remove="True" />
+
+</layers>
