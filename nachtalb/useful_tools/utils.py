@@ -32,11 +32,11 @@ def bool_request_argument(request, names, default=False):
 
     result = default
     for name in names:
-        arg = request.get(name, None)
+        arg = request.get(name, '').lower()
 
-        if arg in ['yes', 'enable', 'activate', 'on', '1']:
+        if arg in ['yes', 'enable', 'activate', 'on', '1', 'true']:
             result = True
-        elif arg in ['no', 'disable', 'deactivate', 'off', '0']:
+        elif arg in ['no', 'disable', 'deactivate', 'off', '0', 'false']:
             result = False
 
         if arg is not None:
