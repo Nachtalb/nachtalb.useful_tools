@@ -23,6 +23,10 @@ class UsefulToolsView(BrowserView):
         charset = charset or 'utf-8'
         self.request.RESPONSE.addHeader('Content-Type', '{}; charset={}'.format(mime_type, charset))
 
+        timestamp_override = self.request.get('timestamp', True)
+        if timestamp_override in ['0', 'no', 'off']:
+            timestamp_override = False
+
         def log(msg, prepend_newline=True, timestamp=True, warning=False):
             if warning:
                 self.logger.warning(msg)
@@ -31,7 +35,7 @@ class UsefulToolsView(BrowserView):
 
             if warning:
                 msg = 'Warning - ' + msg
-            if timestamp:
+            if timestamp_override and timestamp:
                 msg = time.strftime('%Y/%m/%d-%H:%M:%S ') + msg
             if prepend_newline:
                 msg += '\n'
