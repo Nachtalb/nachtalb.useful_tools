@@ -7,3 +7,10 @@ class INachtalbUsefulToolsLayer(Interface):
 
 class IUsefulToolsView(Interface):
     """Useful tools base"""
+
+
+class ISLToolsView(Interface):
+    """ftw.simepllayout Toolbox"""
+
+    def show_pages(self):
+        """Find all Simplalayout pages beyond the context"""

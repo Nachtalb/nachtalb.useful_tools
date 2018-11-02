@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="nachtalb.useful_tools">
 
   <browser:page
@@ -10,5 +11,15 @@
       class=".useful_tools.UsefulToolsView"
       permission="cmf.ManagePortal"
   />
+
+  <configure zcml:condition="installed ftw.simplelayout">
+    <browser:page
+        for="nachtalb.useful_tools.interfaces.IUsefulToolsView"
+        name="sl"
+        allowed_interface="nachtalb.useful_tools.interfaces.ISLToolsView"
+        class=".sl_tools.SLToolsView"
+        permission="cmf.ManagePortal"
+    />
+  </configure>
 
 </configure>

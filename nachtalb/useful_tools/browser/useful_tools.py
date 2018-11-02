@@ -1,3 +1,4 @@
+from Acquisition import aq_parent
 import logging
 import time
 
@@ -47,3 +48,11 @@ class UsefulToolsView(BrowserView):
             elapsed = stop
 
         return Timer(start_time)
+
+    def get_non_ut_context(self):
+        """Get non useful tools context"""
+        context = self.context
+        while IUsefulToolsView.providedBy(context):
+            context = aq_parent(context)
+
+        return context
