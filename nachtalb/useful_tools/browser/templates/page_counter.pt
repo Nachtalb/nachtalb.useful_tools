@@ -1,0 +1,89 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+tal:define="infos options/infos">
+<body>
+<style>
+    body {
+        font-family: monospace;
+    }
+
+    code {
+        background: #f2f2f2;
+        border: 1px solid lightgrey;
+        border-radius: 1px;
+    }
+
+    h3 {
+        padding-top: 1.5em;
+    }
+
+    table {
+        border-collapse: collapse
+    }
+
+    table tr:nth-child(odd):not(:first-of-type) {
+        background: #f2f2f2;
+    }
+
+    table th {
+        border-bottom: 1px solid #ddd;
+    }
+</style>
+
+<h1>Page Counter</h1>
+<p>Use <code>?types=xxx,-yyy</code> to include / exclude certain types from the search.</p>
+<p>Use <code>?clear=yes/true/1</code> to clear the types list and override it with <code>?types=...</code></p>
+<p>Use <code>?old=1</code> to search for the types used on older websites.</p>
+<p>Use <code>?pathfilter=1</code> to filter by current path.</p>
+<hr>
+
+<h2>Search Information</h2>
+<p>Searching in: <code tal:content="infos/path" /></p>
+<p>Use old types: <code tal:content="infos/old_types" /></p>
+<p>List cleared: <code tal:content="infos/cleared" /></p>
+<hr>
+
+<h2>Searching for</h2>
+<ul tal:repeat="type_ infos/searched_types" tal:condition="infos/searched_types">
+    <li tal:replace="type_" />
+</ul>
+<p tal:condition="not:infos/searched_types">No types given</p>
+<hr>
+
+<h2>Summary</h2>
+<p>Objects found: <code tal:content="infos/total" /></p>
+<ul tal:repeat="lang_info infos/languages/items">
+    <li><b tal:content="python:lang_info[0]" />
+        <tal tal:replace="python:lang_info[1]" />
+    </li>
+</ul>
+
+<tal:search_result tal:repeat="type_items infos/search_result/items">
+    <tal:definitions tal:define="type_ python:type_items[0];
+            objects python:type_items[1];">
+        <h3 tal:content="type_" />
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Language</th>
+                <th>URL</th>
+            </tr>
+            <tal:item_list tal:repeat="obj objects">
+                <tr>
+                    <td>
+                        <tal tal:replace="obj/Title" />
+                    </td>
+                    <td>
+                        <tal tal:replace="obj/Language" />
+                    </td>
+                    <td>
+                        <a tal:attributes="href obj/absolute_url" tal:content="obj/absolute_url" />
+                    </td>
+                </tr>
+            </tal:item_list>
+        </table>
+    </tal:definitions>
+</tal:search_result>
+
+</body>
+</html>

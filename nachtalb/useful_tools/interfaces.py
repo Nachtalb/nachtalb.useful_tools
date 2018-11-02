@@ -28,3 +28,10 @@ class ITrashToolsView(Interface):
 
     def cleanup(self):
         """Clear the trash and run solr cleanup"""
+
+
+class IMiscToolsView(Interface):
+    """Miscellaneous tools"""
+
+    def page_counter(self):
+        """Count objects of a site with multi language support"""

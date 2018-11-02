@@ -12,6 +12,14 @@
       permission="cmf.ManagePortal"
   />
 
+  <browser:page
+      for="nachtalb.useful_tools.interfaces.IUsefulToolsView"
+      name="misc"
+      allowed_interface="nachtalb.useful_tools.interfaces.IMiscToolsView"
+      class=".misc.MiscToolsView"
+      permission="cmf.ManagePortal"
+  />
+
   <configure zcml:condition="installed ftw.simplelayout">
     <browser:page
         for="nachtalb.useful_tools.interfaces.IUsefulToolsView"

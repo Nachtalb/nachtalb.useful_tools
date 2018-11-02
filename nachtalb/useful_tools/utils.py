@@ -43,3 +43,16 @@ def bool_request_argument(request, names, default=False):
             break
 
     return result
+
+
+def list_request_argument(request, names, separator=','):
+    if isinstance(names, str):
+        names = [names]
+
+    elements = []
+    for name in names:
+        arg = request.get(name, '')
+        arg = arg.strip(separator)
+        elements += arg.split(separator)
+
+    return elements
