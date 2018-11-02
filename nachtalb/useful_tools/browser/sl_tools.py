@@ -42,6 +42,11 @@ class SLToolsView(UsefulToolsView):
 
         blocks = bool_request_argument(self.request, ['blocks', 'block'], default=True)
         pages = bool_request_argument(self.request, ['pages', 'page'], default=True)
+
+        if not blocks and not pages:
+            logger('Search for sl blocks and sl pages disabled.. hence nothing found... who would have thought that...')
+            return
+
         brains = self.get_sl_items(pages=pages, blocks=blocks)
 
         for brain in brains:
