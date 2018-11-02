@@ -67,7 +67,7 @@ class SLToolsView(UsefulToolsView):
         for index, obj in enumerate(objects):
             result = synchronize_page_config_with_blocks(obj)
             logger('Synchronized {index}/{total_amount} {title}: {result}'.format(
-                index=index,
+                index=index + 1,
                 total_amount=len(objects),
                 title=obj.Title(),
                 result=result))
