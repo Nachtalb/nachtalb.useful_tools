@@ -15,6 +15,6 @@ class ISLToolsView(Interface):
     def show_pages(self):
         """Find all Simplalayout pages beyond the context"""
 
-    def synchornize(self):
+    def synchronize(self):
         """Find all Simplalayout pages beyond the context and synchronize their
         page configuration"""

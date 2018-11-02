@@ -48,7 +48,7 @@ class SLToolsView(UsefulToolsView):
                 path=brain.getPath(),
             ))
 
-    def synchornize(self):
+    def synchronize(self):
         """Run synchronize page configuration on all sl sub pages starting with the current path
         """
         logger = self.get_logger()
