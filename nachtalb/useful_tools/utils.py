@@ -24,3 +24,22 @@ class ItemGenerator(object):
                 yield brain.getObject()
                 continue
             yield brain
+
+
+def bool_request_argument(request, names, default=False):
+    if isinstance(names, str):
+        names = [names]
+
+    result = default
+    for name in names:
+        arg = request.get(name, None)
+
+        if arg in ['yes', 'enable', 'activate', 'on', '1']:
+            result = True
+        elif arg in ['no', 'disable', 'deactivate', 'off', '0']:
+            result = False
+
+        if arg is not None:
+            break
+
+    return result

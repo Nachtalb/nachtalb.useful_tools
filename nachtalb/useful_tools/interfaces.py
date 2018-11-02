@@ -12,8 +12,8 @@ class IUsefulToolsView(Interface):
 class ISLToolsView(Interface):
     """ftw.simepllayout Toolbox"""
 
-    def show_pages(self):
-        """Find all Simplalayout pages beyond the context"""
+    def show_objects(self):
+        """Find all Simplalayout objects beyond the context"""
 
     def synchronize(self):
         """Find all Simplalayout pages beyond the context and synchronize their

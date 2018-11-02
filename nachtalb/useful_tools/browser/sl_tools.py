@@ -4,7 +4,7 @@ from zope.interface import implements
 
 from nachtalb.useful_tools.browser.useful_tools import UsefulToolsView
 from nachtalb.useful_tools.interfaces import ISLToolsView
-from nachtalb.useful_tools.utils import ItemGenerator
+from nachtalb.useful_tools.utils import ItemGenerator, bool_request_argument
 
 
 class SLToolsView(UsefulToolsView):
@@ -21,7 +21,7 @@ class SLToolsView(UsefulToolsView):
         if blocks:
             interfaces['query'].append('ftw.simplelayout.interfaces.ISimplelayoutBlock')
 
-        if not(pages and blocks):
+        if not (pages and blocks):
             interfaces['operator'] = 'and'
 
         query = {'object_provides': interfaces}
@@ -35,11 +35,14 @@ class SLToolsView(UsefulToolsView):
 
         return query
 
-    def show_pages(self):
-        """Show all sl pages filtered by current path
+    def show_objects(self):
+        """Show all sl objects filtered by current path
         """
         logger = self.get_logger()
-        brains = self.get_sl_items()
+
+        blocks = bool_request_argument(self.request, ['blocks', 'block'], default=True)
+        pages = bool_request_argument(self.request, ['pages', 'page'], default=True)
+        brains = self.get_sl_items(pages=pages, blocks=blocks)
 
         for brain in brains:
             logger('{id: <30} - {title: <30} - {path}'.format(
