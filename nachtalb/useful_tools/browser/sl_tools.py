@@ -1,4 +1,6 @@
+from ftw.simplelayout.configuration import synchronize_page_config_with_blocks
 from plone.api.portal import get_tool
+import transaction
 from zope.interface import implements
 
 from nachtalb.useful_tools.browser.useful_tools import UsefulToolsView
@@ -44,3 +46,35 @@ class SLToolsView(UsefulToolsView):
                 title=brain.Title or '',
                 path=brain.getPath(),
             ))
+
+    def synchornize(self):
+        """Run synchronize page configuration on all sl sub pages starting with the current path
+        """
+        logger = self.get_logger()
+        timer = self.start_timer()
+
+        total_numbers = {
+            'removed': 0,
+            'added': 0
+        }
+        logger('Synchronizing Page Configurations for sl pages beyond {}'.format(
+            '/'.join(self.context.getPhysicalPath())))
+        logger('-' * 80)
+
+        brains = self.get_sl_pages()
+        for index, brain in enumerate(brains):
+            result = synchronize_page_config_with_blocks(brain.getObject())
+            logger('Synchronized {index}/{total_amount} {title}: {result}'.format(
+                index=index,
+                total_amount=len(brains),
+                title=brain.Title,
+                result=result))
+
+            total_numbers['removed'] += len(result['removed'])
+            total_numbers['added'] += len(result['added'])
+
+        transaction.commit()
+        time = timer.stop()
+        logger('-' * 80)
+        logger('processed {items} items in {time}s, removed config entries {total[removed]}, added config '
+               'entries {total[added]}'.format(items=len(brains), time=time, total=total_numbers))
