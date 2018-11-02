@@ -52,13 +52,14 @@ class SLToolsView(UsefulToolsView):
         """
         logger = self.get_logger()
         timer = self.start_timer()
+        context = self.get_non_ut_context()
 
         total_numbers = {
             'removed': 0,
             'added': 0
         }
         logger('Synchronizing Page Configurations for sl pages beyond {}'.format(
-            '/'.join(self.context.getPhysicalPath())))
+            '/'.join(context.getPhysicalPath())))
         logger('-' * 80)
 
         brains = self.get_sl_pages()
