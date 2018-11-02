@@ -45,6 +45,7 @@ setup(
 
     install_requires=[
         'Plone',
+        'plone.api',
         'setuptools',
         'ftw.upgrade',
     ],

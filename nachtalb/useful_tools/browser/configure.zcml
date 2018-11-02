@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="nachtalb.useful_tools">
+
+  <browser:page
+      for="*"
+      name="useful-tools"
+      allowed_interface="nachtalb.useful_tools.interfaces.IUsefulToolsView"
+      class=".useful_tools.UsefulToolsView"
+      permission="cmf.ManagePortal"
+  />
+
+</configure>
