@@ -15,9 +15,13 @@ class UsefulToolsView(BrowserView):
         super(UsefulToolsView, self).__init__(context, request)
         self.logger = logging.getLogger('nachtalb.useful_tools - %s' % self.__class__.__name__)
 
-    def get_logger(self):
+    def get_logger(self, mime_type=None, charset=None):
         """Helper to prepend a time stamp to the output """
         write = self.request.RESPONSE.write
+
+        mime_type = mime_type or 'text/plain'
+        charset = charset or 'utf-8'
+        self.request.RESPONSE.addHeader('Content-Type', '{}; charset={}'.format(mime_type, charset))
 
         def log(msg, prepend_newline=True, timestamp=True, warning=False):
             if warning:
