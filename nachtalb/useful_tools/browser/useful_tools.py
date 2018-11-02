@@ -6,6 +6,7 @@ from Products.Five.browser import BrowserView
 from zope.interface import implements
 
 from nachtalb.useful_tools.interfaces import IUsefulToolsView
+from nachtalb.useful_tools.utils import bool_request_argument
 
 
 class UsefulToolsView(BrowserView):
@@ -23,9 +24,7 @@ class UsefulToolsView(BrowserView):
         charset = charset or 'utf-8'
         self.request.RESPONSE.addHeader('Content-Type', '{}; charset={}'.format(mime_type, charset))
 
-        timestamp_override = self.request.get('timestamp', True)
-        if timestamp_override in ['0', 'no', 'off']:
-            timestamp_override = False
+        timestamp_override = bool_request_argument(self.request, 'timestamp', default=True)
 
         def log(msg, prepend_newline=True, timestamp=True, warning=False):
             if warning:
