@@ -22,4 +22,14 @@
     />
   </configure>
 
+  <configure zcml:condition="installed ftw.trash">
+    <browser:page
+        for="nachtalb.useful_tools.interfaces.IUsefulToolsView"
+        name="trash"
+        allowed_interface="nachtalb.useful_tools.interfaces.ITrashToolsView"
+        class=".trash_tools.TrashToolsView"
+        permission="cmf.ManagePortal"
+    />
+  </configure>
+
 </configure>

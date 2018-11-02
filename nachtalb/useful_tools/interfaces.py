@@ -18,3 +18,13 @@ class ISLToolsView(Interface):
     def synchronize(self):
         """Find all Simplalayout pages beyond the context and synchronize their
         page configuration"""
+
+
+class ITrashToolsView(Interface):
+    """ftw.trash Toolbox"""
+
+    def clear_trash(self):
+        """Clear the trash"""
+
+    def cleanup(self):
+        """Clear the trash and run solr cleanup"""
