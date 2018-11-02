@@ -1,26 +1,18 @@
 from ftw.simplelayout.configuration import synchronize_page_config_with_blocks
-from plone.api.portal import get_tool
 import transaction
 from zope.interface import implements
 
 from nachtalb.useful_tools.browser.useful_tools import UsefulToolsView
 from nachtalb.useful_tools.interfaces import ISLToolsView
+from nachtalb.useful_tools.utils import ItemGenerator
 
 
 class SLToolsView(UsefulToolsView):
     implements(ISLToolsView)
 
     def get_sl_pages(self, as_object=False, filter_by_path=True):
-        query = self.get_sl_pages_query(filter_by_path=filter_by_path)
-
-        catalog = get_tool('portal_catalog')
-        brains = catalog(**query)
-
-        for brain in brains:
-            if as_object:
-                yield brain.getObject()
-                continue
-            yield brain
+        return ItemGenerator(query=self.get_sl_pages_query(filter_by_path=filter_by_path),
+                             as_object=as_object)
 
     def get_sl_pages_query(self, filter_by_path=True):
         query = {'provides': ['ftw.simplelayout.interfaces.ISimplelayout']}
@@ -62,13 +54,13 @@ class SLToolsView(UsefulToolsView):
             '/'.join(context.getPhysicalPath())))
         logger('-' * 80)
 
-        brains = self.get_sl_pages()
-        for index, brain in enumerate(brains):
-            result = synchronize_page_config_with_blocks(brain.getObject())
+        objects = self.get_sl_pages(as_object=True)
+        for index, obj in enumerate(objects):
+            result = synchronize_page_config_with_blocks(obj)
             logger('Synchronized {index}/{total_amount} {title}: {result}'.format(
                 index=index,
-                total_amount=len(brains),
-                title=brain.Title,
+                total_amount=len(objects),
+                title=obj.Title(),
                 result=result))
 
             total_numbers['removed'] += len(result['removed'])
@@ -78,4 +70,4 @@ class SLToolsView(UsefulToolsView):
         time = timer.stop()
         logger('-' * 80)
         logger('processed {items} items in {time}s, removed config entries {total[removed]}, added config '
-               'entries {total[added]}'.format(items=len(brains), time=time, total=total_numbers))
+               'entries {total[added]}'.format(items=len(objects), time=time, total=total_numbers))
