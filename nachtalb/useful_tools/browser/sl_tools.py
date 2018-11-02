@@ -10,12 +10,21 @@ from nachtalb.useful_tools.utils import ItemGenerator
 class SLToolsView(UsefulToolsView):
     implements(ISLToolsView)
 
-    def get_sl_pages(self, as_object=False, filter_by_path=True):
-        return ItemGenerator(query=self.get_sl_pages_query(filter_by_path=filter_by_path),
+    def get_sl_items(self, pages=True, blocks=True, as_object=False, filter_by_path=True):
+        return ItemGenerator(query=self.get_sl_items_query(pages=pages, blocks=blocks, filter_by_path=filter_by_path),
                              as_object=as_object)
 
-    def get_sl_pages_query(self, filter_by_path=True):
-        query = {'provides': ['ftw.simplelayout.interfaces.ISimplelayout']}
+    def get_sl_items_query(self, pages=True, blocks=True, filter_by_path=True):
+        interfaces = {'query': [], 'operator': 'or'}
+        if pages:
+            interfaces['query'].append('ftw.simplelayout.interfaces.ISimplelayout')
+        if blocks:
+            interfaces['query'].append('ftw.simplelayout.interfaces.ISimplelayoutBlock')
+
+        if not(pages and blocks):
+            interfaces['operator'] = 'and'
+
+        query = {'object_provides': interfaces}
 
         if filter_by_path:
             context = self.get_non_ut_context()
@@ -30,7 +39,7 @@ class SLToolsView(UsefulToolsView):
         """Show all sl pages filtered by current path
         """
         logger = self.get_logger()
-        brains = self.get_sl_pages()
+        brains = self.get_sl_items()
 
         for brain in brains:
             logger('{id: <30} - {title: <30} - {path}'.format(
@@ -54,7 +63,7 @@ class SLToolsView(UsefulToolsView):
             '/'.join(context.getPhysicalPath())))
         logger('-' * 80)
 
-        objects = self.get_sl_pages(as_object=True)
+        objects = self.get_sl_items(blocks=False, as_object=True)
         for index, obj in enumerate(objects):
             result = synchronize_page_config_with_blocks(obj)
             logger('Synchronized {index}/{total_amount} {title}: {result}'.format(
