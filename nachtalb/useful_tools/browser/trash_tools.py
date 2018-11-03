@@ -46,7 +46,7 @@ class TrashToolsView(UsefulToolsView):
         trashed_query = {'object_provides': IRestorable.__identifier__, 'trashed': True}
         trashed_amount_after = len(ItemGenerator(trashed_query))
 
-        logger('Clearing complete cleaned. Deleted {deleted_total}/{trashed_before} objects.'.format(
+        logger('Clearing complete, deleted {deleted_total}/{trashed_before} objects.'.format(
             deleted_total=trashed_amount_before - trashed_amount_after,
             trashed_before=trashed_amount_before
         ))
