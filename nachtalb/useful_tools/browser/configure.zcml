@@ -16,7 +16,7 @@
       for="nachtalb.useful_tools.interfaces.IUsefulToolsView"
       name="misc"
       allowed_interface="nachtalb.useful_tools.interfaces.IMiscToolsView"
-      class=".misc.MiscToolsView"
+      class=".misc_tools.MiscToolsView"
       permission="cmf.ManagePortal"
   />
 
