@@ -35,3 +35,10 @@ class IMiscToolsView(Interface):
 
     def page_counter(self):
         """Count objects of a site with multi language support"""
+
+
+class IMiscAnonToolsView(Interface):
+    """Miscellaneous tools that can be accessed by anonymous user"""
+
+    def reload(self):
+        """Reload code without login"""

@@ -9,7 +9,7 @@
       name="useful-tools"
       allowed_interface="nachtalb.useful_tools.interfaces.IUsefulToolsView"
       class=".useful_tools.UsefulToolsView"
-      permission="cmf.ManagePortal"
+      permission="zope2.View"
   />
 
   <browser:page
@@ -18,6 +18,14 @@
       allowed_interface="nachtalb.useful_tools.interfaces.IMiscToolsView"
       class=".misc_tools.MiscToolsView"
       permission="cmf.ManagePortal"
+  />
+
+  <browser:page
+      for="nachtalb.useful_tools.interfaces.IUsefulToolsView"
+      name="misc-anon"
+      allowed_interface="nachtalb.useful_tools.interfaces.IMiscAnonToolsView"
+      class=".misc_anon_tools.MiscAnonToolsView"
+      permission="zope2.View  "
   />
 
   <configure zcml:condition="installed ftw.simplelayout">
