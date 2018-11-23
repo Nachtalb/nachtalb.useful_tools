@@ -8,6 +8,8 @@ from nachtalb.useful_tools.utils import ItemGenerator
 from nachtalb.useful_tools.utils import bool_request_argument
 from nachtalb.useful_tools.utils import list_request_argument
 
+import json
+
 NEW_TYPES = [
     'ftw.simplelayout.ContentPage',
     'ftw.events.EventPage',
@@ -64,6 +66,9 @@ class MiscToolsView(UsefulToolsView):
     def page_counter(self):
         """Count objects of a site with multi language support
         """
+        return self.page_counter_template(**{'infos': self._page_counter()})
+
+    def _page_counter(self):
         query = self.page_counter_query()
         objects = ItemGenerator(query=query, as_object=True)
 
@@ -77,7 +82,7 @@ class MiscToolsView(UsefulToolsView):
             language_dict.setdefault(language, 0)
             language_dict[language] += 1
 
-        result = {'infos': {
+        result = {
             'path': query['path']['query'],
             'old_types': bool_request_argument(self.request, 'old'),
             'cleared': bool_request_argument(self.request, 'clear'),
@@ -85,6 +90,32 @@ class MiscToolsView(UsefulToolsView):
             'total': len(objects),
             'languages': language_dict,
             'search_result': search_result,
-        }}
+        }
 
-        return self.page_counter_template(**result)
+        return result
+
+    def page_counter_json(self):
+        """Return page counter info as json
+        """
+        info = self._page_counter()
+
+        # We can't json serialize Plone objects so we replace them with a dict
+        # containing the id, title, language, path and url
+        search_result = {}
+        for type_, objs in info['search_result'].items():
+            search_result.setdefault(type_, [])
+
+            for obj in objs:
+                search_result[type_].append({
+                    'id': obj.id,
+                    'title': obj.Title(),
+                    'langugage': obj.Language(),
+                    'path': '/'.join(obj.getPhysicalPath()),
+                    'url': obj.absolute_url()
+                })
+
+        info['search_result'] = search_result
+
+        self.request.RESPONSE.addHeader('Content-Type',
+                                        'application/json; charset=utf-8')
+        return json.dumps(info, sort_keys=True, indent=4)

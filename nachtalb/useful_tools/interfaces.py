@@ -36,6 +36,10 @@ class IMiscToolsView(Interface):
     def page_counter(self):
         """Count objects of a site with multi language support"""
 
+    def page_counter_json(self):
+        """Return page counter info as json
+        """
+
 
 class IMiscAnonToolsView(Interface):
     """Miscellaneous tools that can be accessed by anonymous user"""
