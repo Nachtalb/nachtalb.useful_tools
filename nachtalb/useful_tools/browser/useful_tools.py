@@ -1,16 +1,31 @@
-from Acquisition import aq_parent
 import logging
 import time
 
+from Acquisition import aq_parent
 from Products.Five.browser import BrowserView
-from zope.interface import implements
-
 from nachtalb.useful_tools.interfaces import IUsefulToolsView
 from nachtalb.useful_tools.utils import bool_request_argument
+from plone.app.customerize import registration
+from zope.interface import implements
+from zope.publisher.interfaces.browser import IBrowserRequest
 
 
 class UsefulToolsView(BrowserView):
     implements(IUsefulToolsView)
+
+    def __call__(self, *args, **kwargs):
+        log = self.get_logger()
+        if self.__class__.__base__ is not UsefulToolsView:
+            views_tuples = self.__ac_permissions__
+            for view_tuple in views_tuples:
+                permission, views = view_tuple
+                map(lambda view: log(view, timestamp=False), filter(None, views))
+        else:
+            views = registration.getViews(IBrowserRequest)
+            for view in views:
+                view_class = getattr(view.factory, '__base__', None)
+                if UsefulToolsView in getattr(view_class, '__bases__', []):
+                    log(view.name, timestamp=False)
 
     def __init__(self, context, request):
         super(UsefulToolsView, self).__init__(context, request)
