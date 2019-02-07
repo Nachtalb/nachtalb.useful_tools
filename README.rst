@@ -54,6 +54,7 @@ Views
                 ?pathfilter=1 => Limit search to current path
                 ?clear=1 => Clear the default type list
                 ?types=foo,-bar => Add / Remove (prepend -) types from being searched, parsed from left to right stronger than ?clear
+            pdb/ => Start pdb at for current context
 
 
 - Globally usable ``?timestamp=0`` to remove timestamp from output.
