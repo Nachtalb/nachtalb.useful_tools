@@ -1,4 +1,9 @@
-from ftw.simplelayout.configuration import synchronize_page_config_with_blocks
+try:
+    from ftw.simplelayout.configuration import synchronize_page_config_with_blocks
+    synchronize_available = True
+except ImportError:
+    synchronize_available = False
+
 import transaction
 from zope.interface import implements
 
@@ -60,6 +65,10 @@ class SLToolsView(UsefulToolsView):
         """Run synchronize page configuration on all sl sub pages starting with the current path
         """
         logger = self.get_logger()
+        if not synchronize_available:
+            logger.log('Synchronization is available the ftw.simplelayout version used.', warning=True)
+            return
+
         timer = self.start_timer()
         context = self.get_non_ut_context()
 
