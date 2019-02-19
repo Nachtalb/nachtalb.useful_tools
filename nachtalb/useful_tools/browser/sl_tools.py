@@ -66,7 +66,7 @@ class SLToolsView(UsefulToolsView):
         """
         logger = self.get_logger()
         if not synchronize_available:
-            logger.log('Synchronization is available the ftw.simplelayout version used.', warning=True)
+            logger('Synchronization is available the ftw.simplelayout version used.', warning=True)
             return
 
         timer = self.start_timer()
