@@ -6,10 +6,9 @@ Introduction
 
 Some useful Tools for CMFPlone
 
-At this stage, this tools provided in this package are not meant to be perfect or anything like it. Every time I need
-something done and it could be automated or I know I'll need it in the future (or I'm just lazy to do it manually), I
-will add it to this package. ATM I will no be versioning this package, but maybe I will one day (that's why I didn't
-remove the ``docs/HISTORY.txt`` yet).
+The tools provided by this package are not meant to be perfect or anything like it. Every time I am too lazy to do
+something manually and it could be automated, a new function for this package will be created. ATM I will no be
+versioning this package, but maybe I will one day... probably (that's why I didn't remove the ``docs/HISTORY.txt``).
 
 If you find any bugs or want to have your idea for a tool added, make an Issue or even better a Pull Request.
 
@@ -17,19 +16,14 @@ If you find any bugs or want to have your idea for a tool added, make an Issue o
 Usage
 -----
 
-ATM this package just adds a bunch of views with various functions. Each view path is built like this:
-``useful-tools/TOOLBOX_NAME/FUNCTION``
+The views in this package are all according to this schema:  ``useful-tools/TOOLBOX_NAME/FUNCTION``
 
 - **useful-tools**: prefix for all views
-- **TOOLBOX_NAME**: name for the "category" eg. for ``ftw.simplelayout`` tools it is ``sl``, for ``ftw.trash`` it
-  is ``trash``
-- **FUNCTION**: name of the actual function and last point in our URL, eg. ``synchronize`` as in
-  ``useful-tools/sl/synchronize``. You should somewhat know what a view does by this name. So in this example you
-  know it is about ``ftw.simplelayout`` thanks to the ``../sl/..`` and so you can guess that the ``synchronize``
-  stands for Synchronizing the PageConfiguration.
+- **TOOLBOX_NAME**: name for the "group", eg. for ``ftw.simplelayout`` tools it's ``sl``, for ``ftw.trash`` it's ``trash``
+- **FUNCTION**: name of the function, eg. ``synchronize`` as in ``useful-tools/sl/synchronize``.
 
-If you don't know what a view means, just go look in the code. There is always a small docstring for each function
-(mainly because Plone wants it that way, otherwise the functions defined by ``allowed_interface`` in are `ignored <https://github.com/zopefoundation/Zope/blob/827018bd3ee1f1587fef2baccc45b3cd99e17a17/src/Products/Five/browser/metaconfigure.py#L152>`_)
+If you don't know what a view does, just go look in the code. There is always a small docstring for each function
+(mainly because Plone wants it that way, otherwise the functions defined by ``allowed_interface`` are `ignored <https://github.com/zopefoundation/Zope/blob/827018bd3ee1f1587fef2baccc45b3cd99e17a17/src/Products/Five/browser/metaconfigure.py#L152>`_)
 
 
 Views
@@ -54,11 +48,13 @@ Views
                 ?pathfilter=1 => Limit search to current path
                 ?clear=1 => Clear the default type list
                 ?types=foo,-bar => Add / Remove (prepend -) types from being searched, parsed from left to right stronger than ?clear
+            page_counter_json/ => The same as `page_counter` but as JSON
+
+        misc-anon/ (miscellaneous anonymous)
             pdb/ => Start pdb at for current context
 
 
-- Globally usable ``?timestamp=0`` to remove timestamp from output.
-- For boolean get parameters like ``?timestamp`` or ``?pathfilter`` these values can be used (case insensitive):
+- For boolean get parameters like ``?pathfilter`` these values can be used (case insensitive):
   ::
 
       yes / enable / activate / on / true / 1
@@ -113,6 +109,6 @@ Package / Code template used for this project:
 Copyright
 =========
 
-This package is copyright by `Nachtalb <https://github.com/Nachtalb/>`_.
+This package is copyrighted by `Nachtalb <https://github.com/Nachtalb/>`_.
 
 ``nachtalb.useful_tools`` is licensed under GNU General Public License, version 2.
