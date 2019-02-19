@@ -44,9 +44,6 @@ class IMiscToolsView(Interface):
 class IMiscAnonToolsView(Interface):
     """Miscellaneous tools that can be accessed by anonymous user"""
 
-    def reload(self):
-        """Reload code without login"""
-
     def pdb(self):
         """Start pdb at current context
 
