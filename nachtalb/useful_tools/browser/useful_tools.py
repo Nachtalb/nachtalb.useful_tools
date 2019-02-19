@@ -13,18 +13,27 @@ class UsefulToolsView(BrowserView):
     implements(IUsefulToolsView)
 
     def __call__(self, *args, **kwargs):
-        logger = self.get_logger(with_timestamp=False)
+        if not self.request.ACTUAL_URL.endswith('/'):
+            self.request.RESPONSE.redirect(self.request.URL + '/')
+            return
+        self.request.RESPONSE.addHeader('Content-Type', 'text/html; charset=utf-8')
+
+        def print_a_line(text, link=None):
+            link = link or text
+            self.request.RESPONSE.write('<a href="{}">{}</a></br>'.format(link, text))
+
+        print_a_line('up a level', self.request.ACTUAL_URL.rsplit('/', 2)[0])
         if self.__class__.__base__ is not UsefulToolsView:
             views_tuples = self.__ac_permissions__
             for view_tuple in views_tuples:
                 permission, views = view_tuple
-                map(lambda view: logger.info(view), filter(None, views))
+                map(print_a_line, filter(None, views))
         else:
             views = registration.getViews(IBrowserRequest)
             for view in views:
                 view_class = getattr(view.factory, '__base__', None)
                 if UsefulToolsView in getattr(view_class, '__bases__', []):
-                    logger.info(view.name)
+                    print_a_line(view.name)
 
     def get_logger(self, mime_type=None, charset=None, with_timestamp=True, level=None):
         """Helper to prepend a time stamp to the output """
