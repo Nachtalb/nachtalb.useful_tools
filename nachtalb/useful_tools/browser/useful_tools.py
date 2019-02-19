@@ -4,7 +4,6 @@ import time
 from Acquisition import aq_parent
 from Products.Five.browser import BrowserView
 from nachtalb.useful_tools.interfaces import IUsefulToolsView
-from nachtalb.useful_tools.utils import bool_request_argument
 from plone.app.customerize import registration
 from zope.interface import implements
 from zope.publisher.interfaces.browser import IBrowserRequest
@@ -14,48 +13,42 @@ class UsefulToolsView(BrowserView):
     implements(IUsefulToolsView)
 
     def __call__(self, *args, **kwargs):
-        log = self.get_logger()
+        logger = self.get_logger(with_timestamp=False)
         if self.__class__.__base__ is not UsefulToolsView:
             views_tuples = self.__ac_permissions__
             for view_tuple in views_tuples:
                 permission, views = view_tuple
-                map(lambda view: log(view, timestamp=False), filter(None, views))
+                map(lambda view: logger.info(view), filter(None, views))
         else:
             views = registration.getViews(IBrowserRequest)
             for view in views:
                 view_class = getattr(view.factory, '__base__', None)
                 if UsefulToolsView in getattr(view_class, '__bases__', []):
-                    log(view.name, timestamp=False)
+                    logger.info(view.name)
 
-    def __init__(self, context, request):
-        super(UsefulToolsView, self).__init__(context, request)
-        self.logger = logging.getLogger('nachtalb.useful_tools - %s' % self.__class__.__name__)
-
-    def get_logger(self, mime_type=None, charset=None):
+    def get_logger(self, mime_type=None, charset=None, with_timestamp=True, level=None):
         """Helper to prepend a time stamp to the output """
-        write = self.request.RESPONSE.write
-
         mime_type = mime_type or 'text/plain'
         charset = charset or 'utf-8'
+        level = level or logging.DEBUG
+
         self.request.RESPONSE.addHeader('Content-Type', '{}; charset={}'.format(mime_type, charset))
 
-        timestamp_override = bool_request_argument(self.request, 'timestamp', default=True)
+        logging_format = '%(levelname)s - %(message)s'
+        if with_timestamp:
+            logging_format = '%(asctime)s - ' + logging_format
 
-        def log(msg, prepend_newline=True, timestamp=True, warning=False):
-            if warning:
-                self.logger.warning(msg)
-            else:
-                self.logger.info(msg)
+        formatter = logging.Formatter(logging_format)
 
-            if warning:
-                msg = 'Warning - ' + msg
-            if timestamp_override and timestamp:
-                msg = time.strftime('%Y/%m/%d-%H:%M:%S ') + msg
-            if prepend_newline:
-                msg += '\n'
-            write(msg)
+        response_handler = logging.StreamHandler(self.request.RESPONSE)
+        response_handler.setFormatter(formatter)
 
-        return log
+        logger = logging.getLogger(self.__class__.__name__)
+        logger.setLevel(level)
+        logger.handlers = []  # Remove handlers from previews call of this view
+        logger.addHandler(response_handler)
+
+        return logger
 
     def start_timer(self):
         start_time = time.clock()

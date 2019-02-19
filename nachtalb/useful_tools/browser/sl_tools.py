@@ -43,30 +43,30 @@ class SLToolsView(UsefulToolsView):
     def show_objects(self):
         """Show all sl objects filtered by current path
         """
-        logger = self.get_logger()
+        logger = self.get_logger(with_timestamp=False)
 
         blocks = bool_request_argument(self.request, ['blocks', 'block'], default=True)
         pages = bool_request_argument(self.request, ['pages', 'page'], default=True)
 
         if not blocks and not pages:
-            logger('Search for sl blocks and sl pages disabled.. hence nothing found... who would have thought that...')
+            logger.info('Search for sl blocks and sl pages disabled.. hence nothing found... who would have thought that...')
             return
 
         brains = self.get_sl_items(pages=pages, blocks=blocks)
 
         for brain in brains:
-            logger('{id: <30} - {title: <30} - {path}'.format(
+            logger.info('{id: <30} - {title: <30} - {path}'.format(
                 id=brain.id,
                 title=brain.Title or '',
                 path=brain.getPath(),
-            ), timestamp=False)
+            ))
 
     def synchronize(self):
         """Run synchronize page configuration on all sl sub pages starting with the current path
         """
         logger = self.get_logger()
         if not synchronize_available:
-            logger('Synchronization is available the ftw.simplelayout version used.', warning=True)
+            logger.warning('Synchronization is available the ftw.simplelayout version used.')
             return
 
         timer = self.start_timer()
@@ -76,14 +76,14 @@ class SLToolsView(UsefulToolsView):
             'removed': 0,
             'added': 0
         }
-        logger('Synchronizing Page Configurations for sl pages beyond {}'.format(
+        logger.info('Synchronizing Page Configurations for sl pages beyond {}'.format(
             '/'.join(context.getPhysicalPath())))
-        logger('-' * 80)
+        logger.info('-' * 80)
 
         objects = self.get_sl_items(blocks=False, as_object=True)
         for index, obj in enumerate(objects):
             result = synchronize_page_config_with_blocks(obj)
-            logger('Synchronized {index}/{total_amount} {title}: {result}'.format(
+            logger.info('Synchronized {index}/{total_amount} {title}: {result}'.format(
                 index=index + 1,
                 total_amount=len(objects),
                 title=obj.Title(),
@@ -94,6 +94,6 @@ class SLToolsView(UsefulToolsView):
 
         transaction.commit()
         time = timer.stop()
-        logger('-' * 80)
-        logger('processed {items} items in {time}s, removed config entries {total[removed]}, added config '
+        logger.info('-' * 80)
+        logger.info('processed {items} items in {time}s, removed config entries {total[removed]}, added config '
                'entries {total[added]}'.format(items=len(objects), time=time, total=total_numbers))
