@@ -48,4 +48,11 @@
     />
   </configure>
 
+  <browser:page
+      for="*"
+      name="u"
+      class=".redirects.RedirectView"
+      allowed_interface="nachtalb.useful_tools.interfaces.IRedirects"
+      permission="cmf.ManagePortal"
+  />
 </configure>
