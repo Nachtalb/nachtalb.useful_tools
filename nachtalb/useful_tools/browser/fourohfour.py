@@ -23,6 +23,7 @@ class CustomFourOhFourView(FourOhFourView):
         'ps':  (False, ('portal_setup', 'manage_main')),
         'rr':  (False, ('@@resourceregistry-controlpanel',)),
         'pdb': (True,  ('useful-tools', 'misc-anon', 'pdb')),
+        'i':   (True,  ('useful-tools', 'misc-anon', 'info')),
         'ut':  (True,  ('useful-tools',)),
     }
 

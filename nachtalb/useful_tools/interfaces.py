@@ -49,3 +49,7 @@ class IMiscAnonToolsView(Interface):
 
         https://github.com/4teamwork/opengever.maintenance/blob/6d33009b189472fd912e5310eee18de089957f0c/opengever/maintenance/browser/configure.zcml#L86-L91
         """
+
+    def info(self):
+        """Show the objects UUID
+        """

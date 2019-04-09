@@ -1,4 +1,7 @@
+import json
+
 from plone import api
+from plone.uuid.interfaces import IUUID
 from zope.interface import implements
 
 from nachtalb.useful_tools.browser.useful_tools import UsefulToolsView
@@ -25,3 +28,15 @@ class MiscAnonToolsView(UsefulToolsView):
         __import__('pdb').set_trace()
         pass
         return "Done"
+
+    def info(self):
+        """Show the objects UUID
+        """
+        context = self.get_non_ut_context()
+        info = {
+            'id': context.id,
+            'title': context.Title(),
+            'uuid': IUUID(context),
+            'portal_type': context.portal_type,
+        }
+        return json.dumps(info, indent=4, sort_keys=True, ensure_ascii=False)
