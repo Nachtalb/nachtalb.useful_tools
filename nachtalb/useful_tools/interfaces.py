@@ -49,28 +49,3 @@ class IMiscAnonToolsView(Interface):
 
         https://github.com/4teamwork/opengever.maintenance/blob/6d33009b189472fd912e5310eee18de089957f0c/opengever/maintenance/browser/configure.zcml#L86-L91
         """
-
-
-class IRedirects(Interface):
-    """Various redirects accessible via u/...
-    """
-
-    def mm(self):
-        """Redirect to manage_main
-        """
-
-    def mu(self):
-        """Redirect to @@manage-upgrades
-        """
-
-    def oc(self):
-        """Redirect to @@overview-controlpanel
-        """
-
-    def pr(self):
-        """Redirect to portal_registry
-        """
-
-    def lg(self):
-        """Redirect to @@lawgiver-list-specs
-        """

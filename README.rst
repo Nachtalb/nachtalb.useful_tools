@@ -26,6 +26,40 @@ If you don't know what a view does, just go look in the code. There is always a 
 (mainly because Plone wants it that way, otherwise the functions defined by ``allowed_interface`` are `ignored <https://github.com/zopefoundation/Zope/blob/827018bd3ee1f1587fef2baccc45b3cd99e17a17/src/Products/Five/browser/metaconfigure.py#L152>`_)
 
 
+Redirects
++++++++++
+
++-------+---------------------+----------------------------+
+| Alias | Is context specific | Redirect-URL               |
++=======+=====================+============================+
+| mm    | True                | manage_main                |
++-------+---------------------+----------------------------+
+| mmm   | False               | manage_main                |
++-------+---------------------+----------------------------+
+| mu    | False               | @@manage-upgrades          |
++-------+---------------------+----------------------------+
+| oc    | False               | @@overview-controlpanel    |
++-------+---------------------+----------------------------+
+| lg    | False               | @@lawgiver-list-specs      |
++-------+---------------------+----------------------------+
+| uu    | False               | @@usergroup-userprefs      |
++-------+---------------------+----------------------------+
+| tr    | False               | @@theming-resources        |
++-------+---------------------+----------------------------+
+| trr   | False               | test_rendering             |
++-------+---------------------+----------------------------+
+| pr    | False               | portal_registry            |
++-------+---------------------+----------------------------+
+| pt    | False               | portal_types/manage_main   |
++-------+---------------------+----------------------------+
+| ps    | False               | portal_setup/manage_main   |
++-------+---------------------+----------------------------+
+| pdb   | True                | useful-tools/misc-anon/pdb |
++-------+---------------------+----------------------------+
+| ut    | True                | useful-tools               |
++-------+---------------------+----------------------------+
+
+
 Views
 +++++
 
