@@ -1,4 +1,7 @@
 from plone.api.portal import get_tool
+from pkg_resources import get_distribution
+
+IS_PLONE_5 = get_distribution('Plone').version >= '5'
 
 
 class ItemGenerator(object):
