@@ -53,3 +53,7 @@ class IMiscAnonToolsView(Interface):
     def info(self):
         """Show the objects UUID
         """
+
+    def filestat(self):
+        """Show statistics of file sizes
+        """

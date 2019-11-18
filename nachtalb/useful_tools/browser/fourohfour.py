@@ -24,6 +24,7 @@ class CustomFourOhFourView(FourOhFourView):
         'rr':  (False, ('@@resourceregistry-controlpanel',)),
         'pdb': (True,  ('useful-tools', 'misc-anon', 'pdb')),
         'i':   (True,  ('useful-tools', 'misc-anon', 'info')),
+        'fst': (True,  ('useful-tools', 'misc-anon', 'filestat')),
         'ut':  (True,  ('useful-tools',)),
     }
 

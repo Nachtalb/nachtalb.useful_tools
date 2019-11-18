@@ -1,5 +1,7 @@
 import json
 
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 from plone.uuid.interfaces import IUUID
 from zope.interface import implements
@@ -33,10 +35,57 @@ class MiscAnonToolsView(UsefulToolsView):
         """Show the objects UUID
         """
         context = self.get_non_ut_context()
+        try:
+            uuid = IUUID(context)
+        except TypeError:
+            uuid = None
         info = {
             'id': context.id,
             'title': context.Title(),
-            'uuid': IUUID(context),
+            'uuid': uuid,
             'portal_type': context.portal_type,
         }
         return json.dumps(info, indent=4, sort_keys=True, ensure_ascii=False)
+
+    def filestat(self):
+        """Show statistics of file sizes
+        """
+        template = ViewPageTemplateFile('templates/filesize.pt')
+        brains_by_size = []
+        limit = int(self.request.get('limit', 100))
+        catalog = api.portal.get_tool('portal_catalog')
+        path = '/'.join(self.get_non_ut_context().getPhysicalPath())
+
+
+        for brain in catalog({'path': {'query': path}}):
+            size, entity = brain.getObjSize.split(' ')
+            if entity == 'GB':
+                size = float(size) * 1024 * 1024 * 1024
+            elif entity == 'MB':
+                size = float(size) * 1024 * 1024
+            elif entity == 'KB':
+                size = float(size) * 1024
+            else:
+                continue
+
+            brains_by_size.append((size, brain.getObjSize, brain))
+
+        brains_by_size.sort(key=lambda item: item[0], reverse=True)
+
+        entries = []
+        for _, size, brain in brains_by_size[:limit]:
+            entries.append({
+                'size': size,
+                'type': brain.portal_type,
+                'url': brain.getURL(),
+                'title': safe_unicode(brain.Title or brain.getId),
+            })
+
+        total = len(brains_by_size)
+        return template(self, **{
+            'entries': entries,
+            'total': total,
+            'shown': min((limit, total)),
+            'next': '?limit=' + str(limit + 100),
+            'limit': limit,
+        })

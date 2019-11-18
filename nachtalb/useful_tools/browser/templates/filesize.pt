@@ -1,0 +1,16 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"
+      xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <table>
+    <tal:files tal:repeat="entry options/entries">
+      <tr>
+        <td tal:content="entry/size" />
+        <td tal:content="entry/type" />
+        <td><a tal:attributes="href entry/url" tal:content="entry/title" /></td>
+      </tr>
+    </tal:files>
+  </table>
+  <p>
+    <i><span tal:content="options/shown" /> von <span tal:content="options/total" /></i>
+    <a tal:attributes="href options/next">mehr</a>
+  </p>
+</html>
