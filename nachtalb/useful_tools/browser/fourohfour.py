@@ -11,7 +11,7 @@ class CustomFourOhFourView(FourOhFourView):
         # 'alias': (is context specific, ('redirect', ' url')),
         'mm':  (True,  ('manage_main',)),
         'mmm': (False, ('manage_main',)),
-        'mu':  (False, ('@@manage-upgrades',)),
+        'mu':  (False, ('@@manage-upgrades-plain',)),
         'oc':  (False, ('@@overview-controlpanel',)),
         'lg':  (False, ('@@lawgiver-list-specs',)),
         'uu':  (False, ('@@usergroup-userprefs',)),
