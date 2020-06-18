@@ -17,6 +17,7 @@ class CustomFourOhFourView(FourOhFourView):
         'uu':  (False, ('@@usergroup-userprefs',)),
         'tr':  (False, ('@@theming-resources',)),
         'pc':  (False, ('@@publisher-config',)),
+        'pp':  (True,  ('@@publisher.publish',)),
         'trr': (False, ('test_rendering',)),
         'pr':  (False, ('portal_registry',)),
         'pt':  (False, ('portal_types', 'manage_main')),
