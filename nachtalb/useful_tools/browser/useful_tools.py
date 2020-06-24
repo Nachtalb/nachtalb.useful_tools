@@ -35,7 +35,7 @@ class UsefulToolsView(BrowserView):
                 if UsefulToolsView in getattr(view_class, '__bases__', []):
                     print_a_line(view.name)
 
-        self.ut_context= self.context
+        self.ut_context = self.context
         self.context = self.get_non_ut_context()
 
     def get_logger(self, mime_type=None, charset=None, with_timestamp=True, level=None):

@@ -36,6 +36,14 @@
         class=".sl_tools.SLToolsView"
         permission="cmf.ManagePortal"
     />
+
+    <browser:page
+        for="nachtalb.useful_tools.interfaces.IUsefulToolsView"
+        name="creator"
+        allowed_interface="nachtalb.useful_tools.interfaces.ICreatorInterface"
+        class=".creator.CreatorView"
+        permission="cmf.ManagePortal"
+    />
   </configure>
 
   <configure zcml:condition="installed ftw.trash">

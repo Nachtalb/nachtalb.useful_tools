@@ -20,6 +20,16 @@ class ISLToolsView(Interface):
         page configuration"""
 
 
+class ICreatorInterface(Interface):
+    """Create content with sample content"""
+
+    def sl(self):
+        """Create simplelayout content"""
+
+    def other(self):
+        """Generic creator"""
+
+
 class ITrashToolsView(Interface):
     """ftw.trash Toolbox"""
 

@@ -60,6 +60,8 @@ class SLToolsView(UsefulToolsView):
                 title=brain.Title or '',
                 path=brain.getPath(),
             ))
+        else:
+            logger.info('No blocks/pages found')
 
     def synchronize(self):
         """Run synchronize page configuration on all sl sub pages starting with the current path
