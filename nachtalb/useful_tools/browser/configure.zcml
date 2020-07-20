@@ -64,5 +64,4 @@
       allowed_interface="plone.app.redirector.interfaces.IFourOhFourView"
       layer="nachtalb.useful_tools.interfaces.INachtalbUsefulToolsLayer"
   />
-
 </configure>

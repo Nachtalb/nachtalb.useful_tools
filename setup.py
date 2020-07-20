@@ -48,6 +48,7 @@ setup(
         'Plone',
         'plone.api',
         'plone.app.redirector',
+        'plone.app.debugtoolbar',
         'setuptools',
         'ftw.upgrade',
     ],
