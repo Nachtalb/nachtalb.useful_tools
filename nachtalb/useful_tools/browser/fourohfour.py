@@ -10,6 +10,7 @@ class CustomFourOhFourView(FourOhFourView):
     REDIRECTS = {
         # 'alias': (is context specific, ('redirect', ' url')),
         'mm':  (True,  ('manage_main',)),
+        'un':  (True,  ('manage_UndoForm',)),
         'mmm': (False, ('manage_main',)),
         'mu':  (False, ('@@manage-upgrades-plain',)),
         'oc':  (False, ('@@overview-controlpanel',)),
